@@ -1,0 +1,125 @@
+<%- include('header') %>
+  <button type="button" id="resetBtnEl"
+    class="fixed bg-gray-200 hover:bg-gray-300 shadow rounded px-3 py-1 left-2 top-2">
+    Reset Serve Data
+  </button>
+  <div class="flex flex-col items-center min-h-screen bg-gray-600 p-12">
+    <div class="pb-5">
+      <input type="text" id="memberInputEl" class="w-32 rounded px-2 py-1" placeholder="member">
+      <input type="number" id="ageInputEl" class="w-24 rounded px-2 py-1" placeholder="age" min="1">
+      <input type="number" id="weightInputEl" class="w-24 rounded px-2 py-1" placeholder="weight" min="1">
+      <input type="number" id="heightInputEl" class="w-24 rounded px-2 py-1" placeholder="height" min="1">
+      <button type="button" id="addBtnEl" class="bg-gray-200 hover:bg-gray-300
+        rounded px-3 py-1">Add</button>
+    </div>
+    <div>
+      <div class="flex items-center mb-1">
+        <label for="selectEl" class="text-white mr-2">Sort</label>
+        <select id="selectEl" class="bg-gray-100 rounded p-1 mr-auto">
+          <option value="" selected disabled>-- sort --</option>
+          <option value="title">member</option>
+          <option value="age">age</option>
+          <option value="weight">weight</option>
+          <option value="height">height</option>
+        </select>
+        <button type="button" id="reverseBtnEl" class="bg-gray-200 hover:bg-gray-300 rounded px-3 py-1">Reverse</button>
+      </div>
+      <div id="rangePanel" class="py-3 hidden">
+        <h3 id="rangeTitleEl" class="text-gray-100 text-2xl font-bold mb-1">
+        </h3>
+        <labal for="rangeMinInputEl" class="text-gray-100 mr-1">
+          min
+        </labal>
+        <input id="rangeMinInputEl" type="number" class="w-20 rounded px-2 py-1 mr-5" min="1">
+        <labal for="rangeMaxInputEl" class="text-gray-100 mr-1">
+          max
+        </labal>
+        <input id="rangeMaxInputEl" type="number" class="w-20 rounded px-2 py-1" min="1">
+      </div>
+      <table class="table text-gray-400 border-separate space-y-6 text-sm">
+        <thead class="bg-gray-800 text-gray-500">
+          <tr>
+            <th class="p-3">
+              Member
+            </th>
+            <th class="p-3 text-left">
+              Age
+            </th>
+            <th class="p-3 text-left">
+              Weight
+            </th>
+            <th class="p-3 text-left">
+              Height
+            </th>
+            <th class="p-3 text-left">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody id="membersListEl" class="members-list hide-edit">
+          <% members.forEach((member)=> { %>
+            <tr data-id="<%= member.id %>" class="member-card bg-gray-800 relative">
+              <td class="p-3">
+                <%= member.title %>
+              </td>
+              <td class="p-3">
+                <%= member.age %>
+              </td>
+              <td class="p-3 font-bold">
+                <%= member.weight %>
+              </td>
+              <td class="p-3">
+                <%= member.height %>
+              </td>
+              <td class="p-3">
+                <a href="javascript:;" class="text-gray-400 hover:text-gray-100 mx-2">
+                  <i class="edit-btn material-icons-outlined text-base">edit</i>
+                </a>
+                <a href="javascript:;" class="text-red-400 hover:text-red-700 ml-2">
+                  <i class="remove-btn material-icons-round text-base">delete_outline</i>
+                </a>
+              </td>
+              <td class="edit-container text-gray-800 invisible opacity-0 duration-300
+                absolute bg-gray-50 rounded top-1/2 transform -translate-y-1/2 ml-5 p-3">
+                <span class="edit-triangle absolute bg-gray-50 block top-1/2 -left-3.5
+                  transform -translate-y-1/2 p-2"></span>
+                <div class="text-right leading-none">
+                  <span class="close-edit-container-btn material-icons-outlined cursor-pointer
+                    text-red-500 hover:text-red-700">close</span>
+                </div>
+                <div class="flex py-1">
+                  <label for="<%= member.id + member.title %>" class="w-12">member</label>
+                  <input id="<%= member.id + member.title %>" type="text" placeholder="member"
+                    value="<%= member.title %>" class="member-input w-32 border border-gray-500 rounded px-2 ml-3">
+                </div>
+                <div class="flex py-1">
+                  <label for="<%= member.id + member.age %>" class="w-12">age</label>
+                  <input id="<%= member.id + member.age %>" type="number" placeholder="age" min="1"
+                    value="<%= member.age %>" class="age-input w-32 border border-gray-500 rounded px-2 ml-3">
+                </div>
+                <div class="flex py-1">
+                  <label for="<%= member.id + member.weight %>" class="w-12">weight</label>
+                  <input id="<%= member.id + member.weight %>" type="number" placeholder="weight" min="1"
+                    value="<%= member.weight %>" class="weight-input w-32 border border-gray-500 rounded px-2 ml-3">
+                </div>
+                <div class="flex py-1">
+                  <label for="<%= member.id + member.height %>" class="w-12">height</label>
+                  <input id="<%= member.id + member.height %>" type="number" placeholder="height" min="1"
+                    value="<%= member.height %>" class="height-input w-32 border border-gray-500 rounded px-2 ml-3">
+                </div>
+                <div class="text-right mt-2">
+                  <button type="button" class="submit-edit-btn bg-gray-300 hover:bg-gray-400 
+                    rounded px-3 py-1">
+                    Submit
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="javascripts/members.js"></script>
+  <%- include('footer') %>
